@@ -8,11 +8,11 @@ use Onion\Entity\City;
 class CityRepository implements CityRepositoryInterface
 {
     public function getById(int $id): array {
-        return City::where('id', $id)->get()->toArray();
+        return City::with('province')->where('id', $id)->get()->toArray();
     }  
 
     public function get(): array {
-        return City::get()->toArray();
+        return City::with('province')->get()->toArray();
     }
 
     public function upsert(UpsertCityModel $model): City {

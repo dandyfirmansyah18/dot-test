@@ -25,7 +25,7 @@ class GetCitiesHandler
             'code' => 200,
             'description' => 'OK'
           ],
-          'results' => $getData
+          'results' => $this->parseToResponse($getData)
         ];
       } catch (\Exception $e) {
         return [
@@ -45,5 +45,23 @@ class GetCitiesHandler
             }
         }
         return [];
+    }
+
+    private function parseToResponse(array $data)
+    {
+        $response = [];
+        foreach ($data as $dt) {
+            $res = [
+              'city_id' => $dt['id'],
+              'province_id' => $dt['province_id'],
+              'province' => $dt['province']['name'],
+              'type' => $dt['type'],
+              'city_name' => $dt['name'],
+              'postal_code' => $dt['postal_code'],
+            ];
+
+            $response[] = $res;
+        }
+        return $response;
     }
 }
